@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:alpine
+    networks:
+      - shared_net
+
+  balancer:
+    image: openresty/openresty:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+    networks:
+      - shared_net
+
+  worker:
+    build: ./worker
+    environment:
+      - REDIS_HOST=redis
+      - NETWORK_NAME=course_work_network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - shared_net
+
+networks:
+  shared_net:
+    external: true
+    name: course_work_network
