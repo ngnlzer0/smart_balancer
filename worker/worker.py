@@ -35,7 +35,6 @@ redis_client = redis.Redis(host=REDIS_HOST, port=6379, decode_responses=True)
 # Словник для збереження історії згладженого навантаження (L_smooth)
 history_l_smooth = {}
 
-
 def get_active_backends():
     """Шукає IP-адреси всіх живих контейнерів сервісу 'backend' у Docker."""
     active_ips = []
